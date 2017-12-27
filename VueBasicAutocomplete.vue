@@ -1,9 +1,9 @@
 <template>
   <div>
 
-    <input class="autocomplete" v-model="typed" @blur="verificaBlur($event)">
+    <input :placeholder="placeholder" class="autocomplete" v-model="typed" @blur="verificaBlur($event)">
     <ul class="autocompleteList" v-if="showResult">
-      <li v-if="noneFind">Nenhum item encontrado</li>
+      <li v-if="noneFind" id="autocompleteNoResult">{{ noresults }}</li>
       <li class="autocompleteItemsList" v-for="result in results" @click="select(result)">{{ result }}</li>
     </ul>
 
@@ -15,13 +15,38 @@
 
 export default {
 
+  props: {
+      value: {
+        default: null
+      },
+
+      data: {
+        type: Array,
+        required: true
+      },
+
+      minlength: {
+        type: Number,
+        default: 3
+
+      },
+
+      noresults: {
+        type: String,
+        default: "No matching result"
+      },
+
+      placeholder: {
+        type: String,
+        default: null
+      }
+  },
+
   data() {
     return {
       typed: '',
-      minSearch: 3,
       showResult: false,
       noneFind: false,
-      data: ['Carlos Maria', 'Maria', 'Carlitos', 'Marianita Car' ],
 
       results: ''
 
@@ -29,8 +54,9 @@ export default {
   },
 
   watch: {
+
     typed() {
-      if (this.typed.length >= this.minSearch) {
+      if (this.typed.length >= this.minlength) {
 
         let verifier = this.typed;
         let verify = this.data.filter(function(elem) {
@@ -43,7 +69,7 @@ export default {
 
       }
 
-      if (this.typed.length < this.minSearch) {
+      if (this.typed.length < this.minlength) {
         this.showResult = false;
         this.results = ''
       }
@@ -75,6 +101,7 @@ export default {
 
     select(result) {
       this.typed = result;
+      this.$emit("input", this.typed);
       this.showResult = false;
     },
 
@@ -91,6 +118,7 @@ export default {
 
           if (verifica.length == 0) {
             self.typed = '';
+            self.$emit("input", self.typed);
           }
 
 
@@ -148,6 +176,10 @@ export default {
 .autocompleteItemsList:hover {
   background-color: #eef4ff;
   font-weight: bold;
+}
+
+#autocompleteNoResult {
+  color: #bbbbbb;
 }
 
 </style>

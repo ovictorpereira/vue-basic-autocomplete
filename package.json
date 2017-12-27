@@ -1,8 +1,36 @@
 {
-  "name": "vue-basic-autocomplete",
+  "_from": "vue-basic-autocomplete",
+  "_id": "vue-basic-autocomplete@1.0.2",
+  "_inBundle": false,
+  "_integrity": "sha512-E8pa09+gTi1wz+Y4gl7g7dtq74pUyQ546T5cQcmU16jCNcNRRPM4DSwklapOcrBes6j7G+F4WgeK3cmICpIjhg==",
+  "_location": "/vue-basic-autocomplete",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "vue-basic-autocomplete",
+    "name": "vue-basic-autocomplete",
+    "escapedName": "vue-basic-autocomplete",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/vue-basic-autocomplete/-/vue-basic-autocomplete-1.0.0.tgz",
+  "_shasum": "93f95dc5813a5c121250d62b3e55f80abee1283b",
+  "_spec": "vue-basic-autocomplete",
+  "author": {
+    "name": "Victor Pereira",
+    "email": "ovictorpereira@gmail.com"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
   "description": "A basic vue.js autocomplete module",
-  "version": "1.0.1",
-  "author": "Victor Pereira",
+  "license": "MIT",
   "main": "VueBasicAutocomplete.vue",
-  "license": "MIT"
+  "name": "vue-basic-autocomplete",
+  "version": "1.0.2"
 }
