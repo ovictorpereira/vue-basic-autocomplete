@@ -1,0 +1,8 @@
+{
+  "name": "vue-basic-autocomplete",
+  "description": "A basic vue.js autocomplete module",
+  "version": "1.0.1",
+  "author": "Victor Pereira",
+  "main": "VueBasicAutocomplete.vue",
+  "license": "MIT"
+}
