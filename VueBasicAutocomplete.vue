@@ -33,7 +33,7 @@ export default {
 
       noresults: {
         type: String,
-        default: "No matching result"
+        default: "No matching results"
       },
 
       placeholder: {
@@ -154,6 +154,7 @@ export default {
 
 .autocompleteList {
   z-index: 6;
+  background-color: white;
   box-sizing: border-box;
   width: 100%;
   border-left: 1px solid #ced4da;

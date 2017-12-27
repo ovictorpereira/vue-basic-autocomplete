@@ -1,6 +1,6 @@
 {
   "_from": "vue-basic-autocomplete",
-  "_id": "vue-basic-autocomplete@1.0.2",
+  "_id": "vue-basic-autocomplete@1.0.3",
   "_inBundle": false,
   "_integrity": "sha512-E8pa09+gTi1wz+Y4gl7g7dtq74pUyQ546T5cQcmU16jCNcNRRPM4DSwklapOcrBes6j7G+F4WgeK3cmICpIjhg==",
   "_location": "/vue-basic-autocomplete",
@@ -32,5 +32,5 @@
   "license": "MIT",
   "main": "VueBasicAutocomplete.vue",
   "name": "vue-basic-autocomplete",
-  "version": "1.0.2"
+  "version": "1.0.3"
 }
