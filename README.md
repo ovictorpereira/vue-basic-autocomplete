@@ -19,19 +19,19 @@ Vue.component('vue-basic-autocomplete', VueBasicAutocomplete)
 <vue-basic-autocomplete :data="myOptions" v-model="selected"></vue-basic-autocomplete>
 ```
 ```js
- data() {
-   return {
-      myOptions: ['Item One', 'Item Two'],
+new Vue({
+  data: {
+   myOptions: ['Item One', 'Item Two'],
       selected: ''
-   }
- },
+  }
+})
 ```
 
 ## Available props
 
 | Prop        | Type             | Default                | Description                                      |
 |-------------|------------------|------------------------|--------------------------------------------------|
-| data        | Array (required) |                        | Options to autocomplete                          |
+| data        | Array (required) |                        | Array of ptions to autocomplete                  |
 | minlength   | Number           | 3                      | Min. length to start listing                     |
 | noresults   | String           | Nenhum item encontrado | Default label when there are no matching results |
 | placeholder | String           |                        | Placeholder                                      |
