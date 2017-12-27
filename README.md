@@ -33,5 +33,5 @@ new Vue({
 |-------------|------------------|------------------------|--------------------------------------------------|
 | data        | Array (required) |                        | Array of ptions to autocomplete                  |
 | minlength   | Number           | 3                      | Min. length to start listing                     |
-| noresults   | String           | Nenhum item encontrado | Default label when there are no matching results |
+| noresults   | String           | No matching result     | Default label when there are no matching results |
 | placeholder | String           |                        | Placeholder                                      |
