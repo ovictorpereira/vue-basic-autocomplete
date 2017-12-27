@@ -1,6 +1,8 @@
 # vue-basic-autocomplete
 A Vue.js autocomplete component. Compatible with Vue 2.x.
 
+![Alt Text](https://media.giphy.com/media/l0HU22ARPhxTXL4Zi/giphy.gif)
+
 ## Installation
 NPM
 ```bash
