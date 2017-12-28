@@ -33,7 +33,7 @@ new Vue({
 
 | Prop        | Type             | Default                | Description                                      |
 |-------------|------------------|------------------------|--------------------------------------------------|
-| data        | Array (required) |                        | Array of ptions to autocomplete                  |
+| data        | Array (required) |                        | Array of options to autocomplete                  |
 | minlength   | Number           | 3                      | Min. length to start listing                     |
 | noresults   | String           | No matching result     | Default label when there are no matching results |
 | placeholder | String           |                        | Placeholder                                      |
