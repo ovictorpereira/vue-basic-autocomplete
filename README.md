@@ -18,7 +18,7 @@ Vue.component('vue-basic-autocomplete', VueBasicAutocomplete)
 
 ## Usage
 ```html
-<vue-basic-autocomplete v-model="selected" :options="myArray" trackby="name" classes="form-control />
+<vue-basic-autocomplete v-model="selected" :options="myArray" trackby="name" classes="form-control" />
 ```
 ```js
 new Vue({
