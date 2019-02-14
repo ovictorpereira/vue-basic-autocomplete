@@ -1,186 +1,156 @@
 <template>
-  <div>
-
-    <input :placeholder="placeholder" class="autocomplete" v-model="typed" @blur="verificaBlur($event)">
-    <ul class="autocompleteList" v-if="showResult">
-      <li v-if="noneFind" id="autocompleteNoResult">{{ noresults }}</li>
-      <li class="autocompleteItemsList" v-for="result in results" @click="select(result)">{{ result }}</li>
-    </ul>
-
-
-  </div>
+    <div class="autocomplete">
+        <input class="form-control autocomplete" v-model="text" @keydown="dropSelection($event)" @blur="onBlur()" :placeholder="placeholder">
+        <div class="autocomplete-list" v-if="filteredItems">
+            <ul v-if="filteredItems.length > 0">
+                <li v-for="(item, index) in filteredItems" :key="index"
+                    :class="highlight == index ? 'highlight-class' : ''"
+                    @mousedown="sendValue(item)"
+                    @mouseenter="highlight = index"
+                    @mouseleave="highlight = -1"
+                >
+                    {{item[trackby]}}
+                </li>
+            </ul>
+            <ul v-if="filteredItems.length === 0">
+                <li class="text-muted">{{noneFind}}</li>
+            </ul>
+        </div>
+    </div>
 </template>
 
 <script>
+    export default {
+        props: {
+            options: {
+                type: Array,
+                required: true
+            },
+            trackby: {
+                type: String,
+                default: null
+            },
+            minlength: {
+                type: Number,
+                default: 1
+            },
+            noneFind: {
+                type: String,
+                default: "No matching results"
+            },
+            placeholder: {
+                type: String,
+                default: null
+            }
+        },
+        data () {
+            return {
+                highlight: -1,
+                text: '',
+                filteredItems: false
+            }
+        },
+        watch: {
+            text (value) {
+                if (this.text.length >= this.minlength) {
+                    let result;
+                    this.trackby != '' ?
+                        result = this.options.filter(i => i[this.trackby] == value) :
+                        result = this.options.filter(i => i == value)
+                   
+                    result.length == 0 ?
+                        this.filterItems() :
+                        this.filteredItems = false
+                } 
+                else {
+                    this.filteredItems = false
+                }
+            }
+        },
+        methods: {
+            filterItems () {
+                let result;
+                let reg = new RegExp(this.text.split('').join('\\w*').replace(/\W/, ""), 'i')
 
-export default {
+                this.trackby != '' ?
+                    result = this.options.filter(i => { if (i[this.trackby].match(reg)) return i }) :
+                    result = this.options.filter(i => { if (i.match(reg)) return i })
 
-  props: {
-      value: {
-        default: null
-      },
+                this.filteredItems = result
+            },
+            onBlur () {
+                let result;
+                this.trackby != '' ?
+                    result = this.options.filter(i => i[this.trackby] == this.text) :
+                    result = this.options.filter(i => i == this.text)
 
-      data: {
-        type: Array,
-        required: true
-      },
+                if (result.length === 0) {
+                    this.text = ''
+                    this.filteredItems = false
+                    this.$emit('input', '')
+                }
+            },
+            sendValue (data) {
+                this.highlight = -1
 
-      minlength: {
-        type: Number,
-        default: 3
+                this.trackby != '' ?
+                    this.text = data[this.trackby] :
+                    this.text = data
 
-      },
-
-      noresults: {
-        type: String,
-        default: "No matching results"
-      },
-
-      placeholder: {
-        type: String,
-        default: null
-      }
-  },
-
-  data() {
-    return {
-      typed: '',
-      showResult: false,
-      noneFind: false,
-
-      results: ''
-
-    }
-  },
-
-  watch: {
-
-    typed() {
-      if (this.typed.length >= this.minlength) {
-
-        let verifier = this.typed;
-        let verify = this.data.filter(function(elem) {
-          return elem == verifier
-        });
-
-        if (verify.length == 0){
-          this.filtro();
+                this.filteredItems = false
+                this.$emit('input', data)
+            },
+            dropSelection (e) {
+                if (e.keyCode == 38) this.previous()
+                if (e.keyCode == 40) this.next()
+                if (e.keyCode == 13) this.enterClick()
+            },
+            enterClick() {
+                 if (this.filteredItems != false && this.filteredItems.length > 0) this.sendValue(this.filteredItems[this.highlight])
+            },
+            previous() {
+                if (this.filteredItems != false && this.highlight > 0) --this.highlight
+            },
+            next () {
+                let s = this.highlight,
+                    l = parseInt(this.filteredItems.length)
+                if (this.filteredItems != false && s < l) this.highlight++
+            }
         }
-
-      }
-
-      if (this.typed.length < this.minlength) {
-        this.showResult = false;
-        this.results = ''
-      }
-    },
-
-
-
-  },
-
-  methods: {
-    filtro() {
-      let reg = new RegExp(this.typed.split('').join('\\w*').replace(/\W/, ""), 'i');
-
-      let result = this.data.filter(function(elem) {
-        if (elem.match(reg)) {
-          return elem
-        }
-      });
-
-      this.results = result;
-      this.showResult = true;
-
-      if (result.length == 0) {
-        this.noneFind = true;
-      } else {
-        this.noneFind = false;
-      }
-    },
-
-    select(result) {
-      this.typed = result;
-      this.$emit("input", this.typed);
-      this.showResult = false;
-    },
-
-    verificaBlur(event) {
-
-      let self = this;
-
-      setTimeout(function() {
-        let verificador = self.typed;
-
-        let verifica = self.data.filter(function(elem) {
-          return elem == verificador
-        });
-
-          if (verifica.length == 0) {
-            self.typed = '';
-            self.$emit("input", self.typed);
-          }
-
-
-      },260);
-
-
     }
-
-
-  }
-
-
-}
 </script>
 
 <style>
-
 .autocomplete {
-  box-sizing: border-box;
-  display: block;
-  width: 100%;
-  padding: .375rem .75rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #495057;
-  background-color: #fff;
-  background-image: none;
-  background-clip: padding-box;
-  border: 1px solid #ced4da;
-  border-radius: .25rem;
-  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    position: relative;
+}
+.autocomplete-list {
+    z-index: 9999;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border: 1px solid #ced4da;
+    border-top: none;
+    background-color: white;
 }
 
-.autocompleteList {
-  z-index: 6;
-  background-color: white;
-  box-sizing: border-box;
-  width: 100%;
-  border-left: 1px solid #ced4da;
-  border-right: 1px solid #ced4da;
-  border-bottom: 1px solid #ced4da;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  font-size: 14px;
-  font-family: Helvetica, sans-serif;
-  padding: 12px;
+.autocomplete-list ul {
+    max-height: 300px;
+    overflow: auto;
+}
+.autocomplete-list ul li {
+    padding: 6px;
+    cursor: default;
+    font-size: 0.92rem;
 }
 
-.autocompleteItemsList {
-  margin: 0;
-  padding: 5px;
-  cursor: default;
+.highlight-class {
+    background-color: #efefef;
+    font-weight: bold;
 }
 
-.autocompleteItemsList:hover {
-  background-color: #eef4ff;
-  font-weight: bold;
+.text-muted {
+    color: #6c757d!important;
 }
-
-#autocompleteNoResult {
-  color: #bbbbbb;
-}
-
 </style>
