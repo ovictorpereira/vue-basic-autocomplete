@@ -1,8 +1,9 @@
 {
   "name": "vue-basic-autocomplete",
-  "version": "2.0.0",
+  "version": "2.0.3",
   "description": "A Vue.js autocomplete component. Compatible with Vue 2.x.",
   "main": "VueBasicAutocomplete.vue",
+  "homepage": "https://github.com/ovictorpereira/vue-basic-autocomplete",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -9,7 +9,8 @@
                     @mouseenter="highlight = index"
                     @mouseleave="highlight = -1"
                 >
-                    {{item[trackby]}}
+                    <span v-if="trackby != ''">{{item[trackby]}}</span>
+                    <span v-if="trackby == ''">{{item}}</span>
                 </li>
             </ul>
             <ul v-if="filteredItems.length === 0">
