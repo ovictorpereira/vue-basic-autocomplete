@@ -29,7 +29,7 @@
             },
             trackby: {
                 type: String,
-                default: null
+                default: ""
             },
             minlength: {
                 type: Number,
@@ -41,7 +41,7 @@
             },
             placeholder: {
                 type: String,
-                default: null
+                default: ""
             }
         },
         data () {
@@ -139,11 +139,16 @@
 .autocomplete-list ul {
     max-height: 300px;
     overflow: auto;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 .autocomplete-list ul li {
     padding: 6px;
     cursor: default;
     font-size: 0.92rem;
+    display: list-item;
+    text-align: left;
 }
 
 .highlight-class {
@@ -154,4 +159,5 @@
 .text-muted {
     color: #6c757d!important;
 }
+
 </style>
