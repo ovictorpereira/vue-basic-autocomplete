@@ -1,6 +1,6 @@
 <template>
     <div class="autocomplete">
-        <input class="form-control autocomplete" v-model="text" @keydown="dropSelection($event)" @blur="onBlur()" :placeholder="placeholder">
+        <input class="form-control autocomplete" ref="inputAutocomplete" :value="typeof(value) == 'string' ? value : value[trackby]" @input="updateData()" @keydown="dropSelection($event)" @blur="onBlur()" :placeholder="placeholder">
         <div class="autocomplete-list" v-if="filteredItems">
             <ul v-if="filteredItems.length > 0">
                 <li v-for="(item, index) in filteredItems" :key="index"
@@ -23,6 +23,9 @@
 <script>
     export default {
         props: {
+            value: {
+                default: ''
+            },
             options: {
                 type: Array,
                 required: true
@@ -47,17 +50,19 @@
         data () {
             return {
                 highlight: -1,
-                text: '',
                 filteredItems: false
             }
         },
-        watch: {
-            text (value) {
-                if (this.text.length >= this.minlength) {
+        methods: {
+            updateData() {
+                const inputAutocomplete = this.$refs.inputAutocomplete.value;
+                this.$emit('input', inputAutocomplete)
+
+                if (inputAutocomplete.length >= this.minlength) {
                     let result;
                     this.trackby != '' ?
-                        result = this.options.filter(i => i[this.trackby] == value) :
-                        result = this.options.filter(i => i == value)
+                        result = this.options.filter(i => i[this.trackby] == inputAutocomplete) :
+                        result = this.options.filter(i => i == inputAutocomplete)
                    
                     result.length == 0 ?
                         this.filterItems() :
@@ -66,12 +71,10 @@
                 else {
                     this.filteredItems = false
                 }
-            }
-        },
-        methods: {
+            },
             filterItems () {
                 let result;
-                let reg = new RegExp(this.text.split('').join('\\w*').replace(/\W/, ""), 'i')
+                let reg = new RegExp( this.$refs.inputAutocomplete.value.split('').join('\\w*').replace(/\W/, ""), 'i')
 
                 this.trackby != '' ?
                     result = this.options.filter(i => { if (i[this.trackby].match(reg)) return i }) :
@@ -82,22 +85,17 @@
             onBlur () {
                 let result;
                 this.trackby != '' ?
-                    result = this.options.filter(i => i[this.trackby] == this.text) :
-                    result = this.options.filter(i => i == this.text)
+                result = this.options.filter(i => i[this.trackby] ==  this.$refs.inputAutocomplete.value) :
+                result = this.options.filter(i => i ==  this.$refs.inputAutocomplete.value)
 
                 if (result.length === 0) {
-                    this.text = ''
+                    this.$refs.inputAutocomplete.value = ''
                     this.filteredItems = false
                     this.$emit('input', '')
                 }
             },
             sendValue (data) {
                 this.highlight = -1
-
-                this.trackby != '' ?
-                    this.text = data[this.trackby] :
-                    this.text = data
-
                 this.filteredItems = false
                 this.$emit('input', data)
             },
