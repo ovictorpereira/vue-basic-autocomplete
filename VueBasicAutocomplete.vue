@@ -1,6 +1,6 @@
 <template>
     <div class="autocomplete">
-        <input class="form-control autocomplete" ref="inputAutocomplete" :value="typeof(value) == 'string' ? value : value[trackby]" @input="updateData()" @keydown="dropSelection($event)" @blur="onBlur()" :placeholder="placeholder">
+        <input class="autocomplete" :class="classes" ref="inputAutocomplete" :value="typeof(value) == 'string' ? value : value[trackby]" @input="updateData()" @keydown="dropSelection($event)" @blur="onBlur()" :placeholder="placeholder">
         <div class="autocomplete-list" v-if="filteredItems">
             <ul v-if="filteredItems.length > 0">
                 <li v-for="(item, index) in filteredItems" :key="index"
@@ -41,6 +41,10 @@
             noneFind: {
                 type: String,
                 default: "No matching results"
+            },
+            classes: {
+                type: String,
+                default: ""
             },
             placeholder: {
                 type: String,

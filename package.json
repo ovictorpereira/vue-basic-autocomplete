@@ -1,6 +1,6 @@
 {
   "name": "vue-basic-autocomplete",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "A Vue.js autocomplete component. Compatible with Vue 2.x.",
   "main": "VueBasicAutocomplete.vue",
   "homepage": "https://github.com/ovictorpereira/vue-basic-autocomplete",
