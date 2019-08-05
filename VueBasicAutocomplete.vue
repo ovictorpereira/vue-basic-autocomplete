@@ -1,6 +1,6 @@
 <template>
     <div class="autocomplete">
-        <input class="autocomplete" :class="classes" ref="inputAutocomplete" :value="typeof(value) == 'string' ? value : value[trackby]" @input="updateData()" @keydown="dropSelection($event)" @blur="onBlur()" :placeholder="placeholder">
+        <input class="autocomplete" :class="classes" ref="inputAutocomplete" :value="typeof(value) == 'string' ? value : value[trackby]" @input="updateData()" @paste="updateData()" @keydown="dropSelection($event)" @blur="onBlur()" :placeholder="placeholder">
         <div class="autocomplete-list" v-if="filteredItems">
             <ul v-if="filteredItems.length > 0">
                 <li v-for="(item, index) in filteredItems" :key="index"
@@ -70,7 +70,7 @@
                    
                     result.length == 0 ?
                         this.filterItems() :
-                        this.filteredItems = false
+                        this.sendValue(result[0])
                 } 
                 else {
                     this.filteredItems = false
@@ -78,7 +78,7 @@
             },
             filterItems () {
                 let result;
-                let reg = new RegExp( this.$refs.inputAutocomplete.value.split('').join('\\w*').replace(/\W/, ""), 'i')
+                let reg = new RegExp(this.$refs.inputAutocomplete.value.split('').join('\\w*').replace(/\W/, ""), 'i')
 
                 this.trackby != '' ?
                     result = this.options.filter(i => { if (i[this.trackby].match(reg)) return i }) :
