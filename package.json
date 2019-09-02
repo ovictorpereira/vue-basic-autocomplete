@@ -8,6 +8,13 @@
     "email": "ovictorpereira@gmail.com"
   },
   "license": "MIT",
+  "keywords": [
+    "vue",
+    "autocomplete",
+    "select",
+    "library",
+    "vuebasicautocomplete"
+  ],
   "main": "dist/vue-basic-autocomplete.umd.js",
   "module": "dist/vue-basic-autocomplete.esm.js",
   "unpkg": "dist/vue-basic-autocomplete.min.js",
