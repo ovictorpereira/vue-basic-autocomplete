@@ -1,6 +1,8 @@
 # vue-basic-autocomplete
 A Vue.js autocomplete component. Compatible with Vue 2.x.
 
+#### [Sandbox](https://jsfiddle.net/ovictorpereira/tk65ecL8/15/ "Sandbox")
+
 ![Alt Text](https://media.giphy.com/media/cmzpTVS8rLWsxOX90l/giphy.gif)
 
 ## Installation
