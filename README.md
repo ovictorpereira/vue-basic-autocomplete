@@ -43,5 +43,5 @@ new Vue({
 | noneFind    | String           | No matching results    | Default label when there are no matching results |
 | trackby     | String           |                        | Required when you are using an array of objects  |
 | placeholder | String           |                        | Placeholder                                      |
-| list-max-height | String       |       300              | Results list max-heigth in px                                      |
+| list-max-height | String       |       300              | Max-heigth in px                                      |
 | 'input-class'     | String           |                  | Custom CSS class for the input. Since I am using Bootstrap, I set it as 'form-control' |
