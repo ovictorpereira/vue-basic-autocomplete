@@ -18,7 +18,7 @@ Vue.use(VueBasicAutocomplete)
 
 ## Usage
 ```html
-<vue-basic-autocomplete v-model="selected" :options="myArray" trackby="name" classes="form-control" />
+<vue-basic-autocomplete v-model="selected" :options="myArray" trackby="name" input-class="form-control" />
 ```
 ```js
 new Vue({
@@ -37,8 +37,9 @@ new Vue({
 | Prop        | Type             | Default                | Description                                      |
 |-------------|------------------|------------------------|--------------------------------------------------|
 | options     | Array (required) |                        | Array of options to autocomplete                 |
-| minlength   | Number           | 1                      | Min. length to start listing                     |
+| minlength   | Number           | 1                      | Min. length to start listing. If set to 0, all the array will be listed on focus   |
 | noneFind    | String           | No matching results    | Default label when there are no matching results |
 | trackby     | String           |                        | Required when you are using an array of objects  |
 | placeholder | String           |                        | Placeholder                                      |
-| classes     | String           |                        | Custom CSS class. Since I am using Bootstrap, I set it as 'form-control' |
+| list-max-height | String       |       300              | Results list max-heigth in px                                      |
+| 'input-class'     | String           |                  | Custom CSS class for the input. Since I am using Bootstrap, I set it as 'form-control' |

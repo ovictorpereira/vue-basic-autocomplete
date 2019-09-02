@@ -1,10 +1,11 @@
 <template>
     <div class="autocomplete">
         <input 
-            class="autocomplete"
-            :class="classes"
+            class="autocomplete-input"
+            :class="inputClass"
             ref="inputAutocomplete"
             :value="typeof(value) == 'string' ? value : value[trackby]"
+            @focus="updateData()"
             @input="updateData()"
             @paste="updateData()"
             @keydown="dropSelection($event)"
@@ -12,7 +13,7 @@
             :placeholder="placeholder"
         >
         <div class="autocomplete-list" v-if="filteredItems">
-            <ul v-if="filteredItems.length > 0">
+            <ul v-if="filteredItems.length > 0" :style="`max-height: ${listMaxHeight}px`">
                 <li v-for="(item, index) in filteredItems" :key="index"
                     :class="highlight == index ? 'highlight-class' : ''"
                     @mousedown="sendValue(item)"
@@ -52,13 +53,17 @@
                 type: String,
                 default: "No matching results"
             },
-            classes: {
+            'input-class': {
                 type: String,
                 default: ""
             },
             placeholder: {
                 type: String,
                 default: ""
+            },
+            'list-max-height': {
+                type: String,
+                default: "300"
             }
         },
         data () {
@@ -71,6 +76,11 @@
             updateData() {
                 const inputAutocomplete = this.$refs.inputAutocomplete.value;
                 this.$emit('input', inputAutocomplete)
+
+                if (inputAutocomplete.length == 0 && this.minlength == 0) {
+                    this.filteredItems = this.options
+                    return
+                }
 
                 if (inputAutocomplete.length >= this.minlength) {
                     let result;
@@ -137,6 +147,11 @@
 .autocomplete {
     position: relative;
 }
+
+.autocomplete-input {
+    overflow: hidden;
+    width: 100%;
+}
 .autocomplete-list {
     z-index: 9999;
     position: absolute;
@@ -149,7 +164,6 @@
 }
 
 .autocomplete-list ul {
-    max-height: 300px;
     overflow: auto;
     list-style-type: none;
     margin: 0;
