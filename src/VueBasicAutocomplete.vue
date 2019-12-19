@@ -11,6 +11,7 @@
             @keydown="dropSelection($event)"
             @blur="onBlur()"
             :placeholder="placeholder"
+            :disabled="disabled"
         >
         <div class="autocomplete-list" v-if="filteredItems">
             <ul v-if="filteredItems.length > 0" :style="`max-height: ${listMaxHeight}px`">
@@ -60,6 +61,10 @@
             placeholder: {
                 type: String,
                 default: ""
+            },
+            disabled: {
+                type: Boolean,
+                default: false
             },
             'list-max-height': {
                 type: String,
