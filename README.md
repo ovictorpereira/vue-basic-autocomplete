@@ -20,16 +20,18 @@ Vue.use(VueBasicAutocomplete)
 
 ## Usage
 ```html
-<vue-basic-autocomplete v-model="selected" :options="myArray" trackby="name" input-class="form-control" />
+<vue-basic-autocomplete v-model="result" :options="myArray" trackby="name" input-class="form-control" />
 ```
 ```js
 new Vue({
     data: {
         myArray: [
-            {name: 'Lion', id: 1},
-            {name: 'Lion Two', id: 2}
+            {name: 'Mariah', id: 1},
+            {name: 'Josh Daves', id: 2}
+            {name: 'John Sec', id: 2}
+            {name: 'Robertson Daves', id: 2}
         ],
-        selected: ''
+        result: ''
     }
 })
 ```
@@ -38,11 +40,17 @@ new Vue({
 
 | Prop        | Type             | Default                | Description                                      |
 |-------------|------------------|------------------------|--------------------------------------------------|
-| options     | Array (required) |                        | Array of options to autocomplete                 |
-| minlength   | Number           | 1                      | Min. length to start listing. If set to 0, all the array will be listed on focus   |
-| noneFind    | String           | No matching results    | Default label when there are no matching results |
+| options     | Array (required) |                        | Array of items to autocomplete                 |
+| minlength   | Number           | 1                      | Min. length to start listing. If set to 0, all options will be listed on focus   |
+| none-find    | String           | No matching results    | Default label when there are no matching results |
 | trackby     | String           |                        | Required when you are using an array of objects  |
 | placeholder | String           |                        | Placeholder                                      |
 | disabled    | Boolean           |    false                    |                                       |
 | list-max-height | String       |       300              | Max-heigth in px                                      |
-| 'input-class'     | String           |                  | Custom CSS class for the input. Since I am using Bootstrap, I set it as 'form-control' |
+| input-class     | String           |                  | Custom CSS class for the input. Since I am using Bootstrap, I set it as 'form-control' |
+
+
+## Events
+| Event    |  Description |
+|----------|--------------|
+| selected     |  Triggers when you select any item       |
