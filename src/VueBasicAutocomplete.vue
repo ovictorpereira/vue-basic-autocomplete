@@ -4,7 +4,7 @@
             class="autocomplete-input"
             :class="inputClass"
             ref="inputAutocomplete"
-            :value="typeof(value) == 'string' ? value : value[trackby]"
+            :value="typeof(value) == 'string' || !value ? value : value[trackby]"
             @focus="updateData()"
             @input="updateData()"
             @paste="updateData()"
@@ -50,7 +50,7 @@
                 type: Number,
                 default: 1
             },
-            noneFind: {
+           'none-find': {
                 type: String,
                 default: "No matching results"
             },
@@ -127,6 +127,7 @@
                 this.highlight = -1
                 this.filteredItems = false
                 this.$emit('input', data)
+                this.$emit('selected')
             },
             dropSelection (e) {
                 if (e.keyCode == 38) this.previous()
