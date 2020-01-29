@@ -127,7 +127,7 @@
                 this.highlight = -1
                 this.filteredItems = false
                 this.$emit('input', data)
-                this.$emit('selected')
+                this.$emit('selected', data)
             },
             dropSelection (e) {
                 if (e.keyCode == 38) this.previous()
