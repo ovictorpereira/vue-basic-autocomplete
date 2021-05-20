@@ -46,7 +46,7 @@ new Vue({
 | disabled    | Boolean           |    false                    |                                       |
 | list-max-height | String       |       300              | Max-heigth in px                                      |
 | input-class     | String           |                  | Custom CSS class for the input. Since I am using Bootstrap, I set it as 'form-control' |
-| clean-marker     | Boolean           |         false         | Shows a clean button appended to the input |
+| clear-btn     | Boolean           |         false         | Shows a clear button appended to the input |
 
 
 ## Events

@@ -13,7 +13,7 @@
             :placeholder="placeholder"
             :disabled="disabled"
         >
-        <span v-if="cleanMarker" class="close-mark" @click="clear">&#10006;</span>
+        <span v-if="clearBtn" class="close-mark" @click="clear">&#10006;</span>
         <div class="autocomplete-list" v-if="filteredItems">
             <ul v-if="filteredItems.length > 0" :style="`max-height: ${listMaxHeight}px`">
                 <li v-for="(item, index) in filteredItems" :key="index"
@@ -71,7 +71,7 @@
                 type: String,
                 default: "300"
             },
-            'clean-marker': {
+            'clear-btn': {
                 type: Boolean,
                 default: false
             }
