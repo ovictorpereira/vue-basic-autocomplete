@@ -13,6 +13,7 @@
             :placeholder="placeholder"
             :disabled="disabled"
         >
+        <span v-if="cleanMarker" class="close-mark" @click="clear">&#10006;</span>
         <div class="autocomplete-list" v-if="filteredItems">
             <ul v-if="filteredItems.length > 0" :style="`max-height: ${listMaxHeight}px`">
                 <li v-for="(item, index) in filteredItems" :key="index"
@@ -69,6 +70,10 @@
             'list-max-height': {
                 type: String,
                 default: "300"
+            },
+            'clean-marker': {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -129,6 +134,11 @@
                 this.$emit('input', data)
                 this.$emit('selected', data)
             },
+            clear () {
+                this.$refs.inputAutocomplete.value = ''
+                this.filteredItems = false
+                this.$emit('input', '')
+            },
             dropSelection (e) {
                 if (e.keyCode == 38) this.previous()
                 if (e.keyCode == 40) this.next()
@@ -157,7 +167,25 @@
 .autocomplete-input {
     overflow: hidden;
     width: 100%;
+    position: relative;
+    box-sizing: border-box;
 }
+
+.close-mark {
+    color: #808080ad;
+    position: absolute;
+    right: 2px;
+    top: 8px;
+    padding: 0 8px;
+    font-style: normal;
+    user-select: none;
+    cursor: pointer;
+}
+
+.close-mark:hover {
+   color: #9e9c9cad;
+}
+
 .autocomplete-list {
     z-index: 9999;
     position: absolute;

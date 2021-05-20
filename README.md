@@ -25,9 +25,9 @@ new Vue({
     data: {
         myArray: [
             {name: 'Mariah', id: 1},
-            {name: 'Josh Daves', id: 2}
-            {name: 'John Sec', id: 2}
-            {name: 'Robertson Daves', id: 2}
+            {name: 'Josh Daves', id: 2},
+            {name: 'John Sec', id: 3},
+            {name: 'Robertson Daves', id: 4},
         ],
         result: ''
     }
@@ -46,6 +46,7 @@ new Vue({
 | disabled    | Boolean           |    false                    |                                       |
 | list-max-height | String       |       300              | Max-heigth in px                                      |
 | input-class     | String           |                  | Custom CSS class for the input. Since I am using Bootstrap, I set it as 'form-control' |
+| clean-marker     | Boolean           |         false         | Shows a clean button appended to the input |
 
 
 ## Events
