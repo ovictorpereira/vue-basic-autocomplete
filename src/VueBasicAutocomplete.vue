@@ -1,162 +1,150 @@
 <template>
     <div class="autocomplete">
-        <input 
-            class="autocomplete-input"
-            :class="inputClass"
-            ref="inputAutocomplete"
-            :value="typeof(value) == 'string' || !value ? value : value[trackby]"
-            @focus="updateData()"
-            @input="updateData()"
-            @paste="updateData()"
-            @keydown="dropSelection($event)"
-            @blur="onBlur()"
-            :placeholder="placeholder"
-            :disabled="disabled"
-        >
+        <input class="autocomplete-input" :class="inputClass" ref="inputAutocomplete"
+            :value="typeof (value) == 'string' || !value ? value : value[trackby]" @input="updateData()"
+            @paste="updateData()" @keydown="dropSelection($event)" @blur="onBlur()" :placeholder="placeholder"
+            :disabled="disabled">
         <span v-if="clearBtn" class="close-mark" @click="clear">&#10006;</span>
         <div class="autocomplete-list" v-if="filteredItems">
             <ul v-if="filteredItems.length > 0" :style="`max-height: ${listMaxHeight}px`">
                 <li v-for="(item, index) in filteredItems" :key="index"
-                    :class="highlight == index ? 'highlight-class' : ''"
-                    @mousedown="sendValue(item)"
-                    @mouseenter="highlight = index"
-                    @mouseleave="highlight = -1"
-                >
-                    <span v-if="trackby != ''">{{item[trackby]}}</span>
-                    <span v-if="trackby == ''">{{item}}</span>
+                    :class="highlight == index ? 'highlight-class' : ''" @mousedown="sendValue(item)"
+                    @mouseenter="highlight = index" @mouseleave="highlight = -1">
+                    <span v-if="trackby != ''">{{ item[trackby] }}</span>
+                    <span v-if="trackby == ''">{{ item }}</span>
                 </li>
             </ul>
             <ul v-if="filteredItems.length === 0">
-                <li class="text-muted">{{noneFind}}</li>
+                <li class="text-muted">{{ noneFind }}</li>
             </ul>
         </div>
     </div>
 </template>
 
 <script>
-    export default {
-        props: {
-            value: {
-                default: ''
-            },
-            options: {
-                type: Array,
-                required: true
-            },
-            trackby: {
-                type: String,
-                default: ""
-            },
-            minlength: {
-                type: Number,
-                default: 1
-            },
-           'none-find': {
-                type: String,
-                default: "No matching results"
-            },
-            'input-class': {
-                type: String,
-                default: ""
-            },
-            placeholder: {
-                type: String,
-                default: ""
-            },
-            disabled: {
-                type: Boolean,
-                default: false
-            },
-            'list-max-height': {
-                type: String,
-                default: "300"
-            },
-            'clear-btn': {
-                type: Boolean,
-                default: false
-            }
+export default {
+    props: {
+        value: {
+            default: ''
         },
-        data () {
-            return {
-                highlight: -1,
-                filteredItems: false
-            }
+        options: {
+            type: Array,
+            required: true
         },
-        methods: {
-            updateData() {
-                const inputAutocomplete = this.$refs.inputAutocomplete.value;
-                this.$emit('input', inputAutocomplete)
+        trackby: {
+            type: String,
+            default: ""
+        },
+        minlength: {
+            type: Number,
+            default: 1
+        },
+        'none-find': {
+            type: String,
+            default: "No matching results"
+        },
+        'input-class': {
+            type: String,
+            default: ""
+        },
+        placeholder: {
+            type: String,
+            default: ""
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+        'list-max-height': {
+            type: String,
+            default: "300"
+        },
+        'clear-btn': {
+            type: Boolean,
+            default: false
+        }
+    },
+    data() {
+        return {
+            highlight: -1,
+            filteredItems: false
+        }
+    },
+    methods: {
+        updateData() {
+            const inputAutocomplete = this.$refs.inputAutocomplete.value;
+            this.$emit('input', inputAutocomplete)
 
-                if (inputAutocomplete.length == 0 && this.minlength == 0) {
-                    this.filteredItems = this.options
-                    return
-                }
+            if (inputAutocomplete.length == 0 && this.minlength == 0) {
+                this.filteredItems = this.options
+                return
+            }
 
-                if (inputAutocomplete.length >= this.minlength) {
-                    let result;
-                    this.trackby != '' ?
-                        result = this.options.filter(i => i[this.trackby] == inputAutocomplete) :
-                        result = this.options.filter(i => i == inputAutocomplete)
-                   
-                    result.length == 0 ?
-                        this.filterItems() :
-                        this.sendValue(result[0])
-                } 
-                else {
-                    this.filteredItems = false
-                }
-            },
-            filterItems () {
-                let result;
-                let reg = new RegExp(this.$refs.inputAutocomplete.value.split('').join('\\w*').replace(/\W/, ""), 'i')
-
-                this.trackby != '' ?
-                    result = this.options.filter(i => { if (i[this.trackby].match(reg)) return i }) :
-                    result = this.options.filter(i => { if (i.match(reg)) return i })
-
-                this.filteredItems = result
-            },
-            onBlur () {
+            if (inputAutocomplete.length >= this.minlength) {
                 let result;
                 this.trackby != '' ?
-                result = this.options.filter(i => i[this.trackby] ==  this.$refs.inputAutocomplete.value) :
-                result = this.options.filter(i => i ==  this.$refs.inputAutocomplete.value)
+                    result = this.options.filter(i => i[this.trackby] == inputAutocomplete) :
+                    result = this.options.filter(i => i == inputAutocomplete)
 
-                if (result.length === 0) {
-                    this.$refs.inputAutocomplete.value = ''
-                    this.filteredItems = false
-                    this.$emit('input', '')
-                }
-            },
-            sendValue (data) {
-                this.highlight = -1
+                result.length == 0 ?
+                    this.filterItems() :
+                    this.sendValue(result[0])
+            }
+            else {
                 this.filteredItems = false
-                this.$emit('input', data)
-                this.$emit('selected', data)
-            },
-            clear () {
+            }
+        },
+        filterItems() {
+            let result;
+            let reg = new RegExp(this.$refs.inputAutocomplete.value.split('').join('\\w*').replace(/\W/, ""), 'i')
+
+            this.trackby != '' ?
+                result = this.options.filter(i => { if (i[this.trackby].match(reg)) return i }) :
+                result = this.options.filter(i => { if (i.match(reg)) return i })
+
+            this.filteredItems = result
+        },
+        onBlur() {
+            let result;
+            this.trackby != '' ?
+                result = this.options.filter(i => i[this.trackby] == this.$refs.inputAutocomplete.value) :
+                result = this.options.filter(i => i == this.$refs.inputAutocomplete.value)
+
+            if (result.length === 0) {
                 this.$refs.inputAutocomplete.value = ''
                 this.filteredItems = false
                 this.$emit('input', '')
-            },
-            dropSelection (e) {
-                if (e.keyCode == 38) this.previous()
-                if (e.keyCode == 40) this.next()
-                if (e.keyCode == 13) this.enterClick()
-            },
-            enterClick() {
-                if (this.filteredItems != false && this.filteredItems.length > 0) this.sendValue(this.filteredItems[this.highlight])
-            },
-            previous() {
-                if (this.filteredItems != false && this.highlight > 0) --this.highlight
-            },
-            next () {
-                let s = this.highlight,
-                    l = parseInt(this.filteredItems.length)
-                if (this.filteredItems != false && s < l) this.highlight++
             }
+        },
+        sendValue(data) {
+            this.highlight = -1
+            this.filteredItems = false
+            this.$emit('input', data)
+            this.$emit('selected', data)
+        },
+        clear() {
+            this.$refs.inputAutocomplete.value = ''
+            this.filteredItems = false
+            this.$emit('input', '')
+        },
+        dropSelection(e) {
+            if (e.keyCode == 38) this.previous()
+            if (e.keyCode == 40) this.next()
+            if (e.keyCode == 13) this.enterClick()
+        },
+        enterClick() {
+            if (this.filteredItems != false && this.filteredItems.length > 0) this.sendValue(this.filteredItems[this.highlight])
+        },
+        previous() {
+            if (this.filteredItems != false && this.highlight > 0) --this.highlight
+        },
+        next() {
+            let s = this.highlight,
+                l = parseInt(this.filteredItems.length)
+            if (this.filteredItems != false && s < l) this.highlight++
         }
     }
+}
 </script>
 
 <style>
@@ -183,7 +171,7 @@
 }
 
 .close-mark:hover {
-   color: #9e9c9cad;
+    color: #9e9c9cad;
 }
 
 .autocomplete-list {
@@ -203,6 +191,7 @@
     margin: 0;
     padding: 0;
 }
+
 .autocomplete-list ul li {
     padding: 6px;
     cursor: default;
@@ -217,7 +206,6 @@
 }
 
 .text-muted {
-    color: #6c757d!important;
+    color: #6c757d !important;
 }
-
 </style>
